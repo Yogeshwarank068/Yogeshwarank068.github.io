@@ -16,7 +16,7 @@ export const Route = createFileRoute("/projects")({
       { property: "og:title", content: "Projects — K Yogeshwaran" },
       {
         property: "og:description",
-        content: "Selected automation, AI and full-stack engineering projects.",
+        content: "Selected automation and AI engineering projects.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
