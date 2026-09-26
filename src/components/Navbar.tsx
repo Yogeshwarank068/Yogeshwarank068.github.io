@@ -14,8 +14,8 @@ const links = [
 
 export const socials = [
   { href: "https://github.com/Yogeshwarank068", label: "GitHub", Icon: Github },
-  { href: "https://www.linkedin.com/in/yogeshwarank068", label: "LinkedIn", Icon: Linkedin },
-  { href: "https://www.instagram.com/yogeshwarank068", label: "Instagram", Icon: Instagram },
+  { href: "https://www.linkedin.com/in/yogeshwaran-k-4b33b3251", label: "LinkedIn", Icon: Linkedin },
+  { href: "https://www.instagram.com/_yogesh_ig_?stkn=MWpxb2p0YWtveWMwaA==", label: "Instagram", Icon: Instagram },
 ];
 
 export function Navbar() {
@@ -44,7 +44,7 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <a href="/resume.pdf" download className="btn-neon hidden !px-4 !py-2 !text-xs sm:inline-flex">
+          <a href="/K Yogeshwaran.pdf" download className="btn-neon hidden !px-4 !py-2 !text-xs sm:inline-flex">
             <FileDown size={14} /> Resume
           </a>
           <button
