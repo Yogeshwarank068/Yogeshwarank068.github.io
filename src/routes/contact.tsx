@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { Page, Reveal } from "@/components/Page";
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Get in touch with K Yogeshwaran — yogeshwarank068@gmail.com, Salem, Tamil Nadu, +91 9750367532.",
+          "Get in touch with K Yogeshwaran — krishyogesh8@gmail.com, Salem, Tamil Nadu, +91 9750367532.",
       },
       { property: "og:title", content: "Contact — K Yogeshwaran" },
       { property: "og:description", content: "Email, phone and social links." },
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
-const EMAIL = "yogeshwarank068@gmail.com";
+const EMAIL = "krishyogesh8@gmail.com";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Please add your name").max(100),
@@ -34,8 +34,10 @@ const schema = z.object({
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -43,10 +45,38 @@ function Contact() {
       return;
     }
     setError(null);
-    const { name, email, message } = parsed.data;
-    const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+    setIsSubmitting(true);
+
+    try {
+      // Free endpoint - sends directly to krishyogesh8@gmail.com without any API keys
+      const response = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: parsed.data.name,
+          email: parsed.data.email,
+          message: parsed.data.message,
+          _subject: `New Portfolio Enquiry from ${parsed.data.name}`,
+          _template: "table",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && (result.success === "true" || result.success === true)) {
+        setIsSubmitted(true);
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        setError("Failed to send message. Please try again or use direct email.");
+      }
+    } catch {
+      setError("Network error. Please check your connection.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const field =
@@ -61,34 +91,68 @@ function Contact() {
       <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <Reveal>
           <form onSubmit={submit} className="glass rounded-2xl p-6">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <input
-                className={field}
-                placeholder="Your name"
-                maxLength={100}
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-              <input
-                className={field}
-                placeholder="Your email"
-                type="email"
-                maxLength={255}
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
-            </div>
-            <textarea
-              className={`${field} mt-3 min-h-36 resize-y`}
-              placeholder="Tell me about the role or project…"
-              maxLength={1000}
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-            />
-            {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
-            <button type="submit" className="btn-neon mt-4">
-              Send message <Send size={15} />
-            </button>
+            {isSubmitted ? (
+              <div className="flex flex-col items-center justify-center py-10 text-center">
+                <CheckCircle2 className="mb-3 text-emerald-500" size={42} />
+                <h3 className="text-lg font-semibold">Message Sent!</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Thanks for reaching out! I will get back to you soon.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsSubmitted(false)}
+                  className="btn-neon mt-6"
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <input
+                    className={field}
+                    placeholder="Your name"
+                    maxLength={100}
+                    value={form.name}
+                    disabled={isSubmitting}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  />
+                  <input
+                    className={field}
+                    placeholder="Your email"
+                    type="email"
+                    maxLength={255}
+                    value={form.email}
+                    disabled={isSubmitting}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  />
+                </div>
+                <textarea
+                  className={`${field} mt-3 min-h-36 resize-y`}
+                  placeholder="Tell me about the role or project…"
+                  maxLength={1000}
+                  value={form.message}
+                  disabled={isSubmitting}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                />
+                {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-neon mt-4 flex items-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      Sending... <Loader2 size={15} className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Send message <Send size={15} />
+                    </>
+                  )}
+                </button>
+              </>
+            )}
           </form>
         </Reveal>
 

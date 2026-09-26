@@ -44,7 +44,7 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <a href="/K Yogeshwaran.pdf" download className="btn-neon hidden !px-4 !py-2 !text-xs sm:inline-flex">
+          <a href="/K Yogeshwaran.pdf" download="K Yogeshwaran.pdf" className="btn-neon hidden !px-4 !py-2 !text-xs sm:inline-flex">
             <FileDown size={14} /> Resume
           </a>
           <button

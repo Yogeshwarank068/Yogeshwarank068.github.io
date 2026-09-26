@@ -54,7 +54,7 @@ function Index() {
             <Link to="/contact" className="btn-ghost">
               <Mail size={16} /> Hire Me
             </Link>
-            <a href="/resume.pdf" download className="btn-ghost group">
+            <a href="/K_Yogeshwaran.pdf" download="K Yogeshwaran.pdf" className="btn-ghost group">
               <FileDown size={16} className="transition-transform group-hover:translate-y-0.5" />
               Download Resume
             </a>
