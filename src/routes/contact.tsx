@@ -39,7 +39,7 @@ function Contact() {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
-      setError(parsed.error.issues[0].message);
+      setError(parsed.error.issues[0]?.message ?? "Please check the form");
       return;
     }
     setError(null);
