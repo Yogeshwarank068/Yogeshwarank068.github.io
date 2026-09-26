@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "K Yogeshwaran — Automation Test Engineer" },
       {
         property: "og:description",
-        content: "Test automation frameworks, full-stack tools and AI-driven solutions.",
+        content: "Test automation frameworks and AI-driven solutions.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -43,7 +43,7 @@ function Index() {
             Automation Test Engineer &amp; Software Developer
           </h2>
           <p className="mt-4 max-w-lg text-muted-foreground">
-            Detail-oriented engineer specialised in test automation frameworks, full-stack tools
+            Detail-oriented engineer specialised in test automation frameworks
             and AI-driven solutions.
           </p>
 
