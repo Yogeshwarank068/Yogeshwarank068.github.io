@@ -86,13 +86,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Portfolio of K Yogeshwaran — test automation frameworks, full-stack tools and AI-driven solutions.",
+          "Portfolio of K Yogeshwaran — test automation frameworks and AI-driven solutions.",
       },
       { name: "author", content: "K Yogeshwaran" },
       { property: "og:title", content: "K Yogeshwaran — Automation Test Engineer" },
       {
         property: "og:description",
-        content: "Test automation frameworks, full-stack tools and AI-driven solutions.",
+        content: "Test automation frameworks and AI-driven solutions.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -108,7 +108,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,
